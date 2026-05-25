@@ -1,26 +1,50 @@
 {% extends 'webapp/base.html' %}
 
-{% block content %}
-<h2>Добавить задачу</h2>
+{% block title %}Добавить задачу{% endblock %}
 
-<form method="post">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label>Описание:</label>
-        <textarea name="description" class="form-control" required></textarea>
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Добавить новую задачу</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="description" class="form-label">Описание задачи *</label>
+                <textarea 
+                    class="form-control" 
+                    id="description" 
+                    name="description" 
+                    rows="3" 
+                    required
+                ></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Статус</label>
+                <select class="form-select" id="status" name="status">
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="due_date" class="form-label">Дата выполнения</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="due_date" 
+                    name="due_date" 
+                    placeholder="2025-12-19"
+                >
+                <div class="form-text">Введите дату в формате YYYY-mm-dd</div>
+            </div>
+
+            <button type="submit" class="btn btn-success">✓ Сохранить</button>
+            <a href="{% url 'task_list' %}" class="btn btn-outline-secondary">Отмена</a>
+        </form>
     </div>
-    <div class="mb-3">
-        <label>Статус:</label>
-        <select name="status" class="form-control">
-            {% for value, label in status_choices %}
-            <option value="{{ value }}">{{ label }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="mb-3">
-        <label>Дата выполнения:</label>
-        <input type="text" name="due_date" class="form-control" placeholder="2025-12-19">
-    </div>
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-</form>
+</div>
 {% endblock %}
