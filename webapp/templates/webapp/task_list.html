@@ -3,8 +3,6 @@
 {% block content %}
 <h1 class="mb-4">Список задач</h1>
 
-<a href="{% url 'task_create' %}" class="btn btn-primary mb-3">+ Добавить задачу</a>
-
 {% if tasks %}
     {% for task in tasks %}
     <div class="card mb-3">
@@ -28,6 +26,6 @@
     </div>
     {% endfor %}
 {% else %}
-    <p>Задач пока нет. <a href="{% url 'task_create' %}">Создайте новую задачу</a>.</p>
+    <p>Задач пока нет.</p>
 {% endif %}
 {% endblock %}
