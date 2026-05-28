@@ -1,0 +1,38 @@
+{% extends 'webapp/base.html' %}
+
+{% block title %}{{ task.description }}{% endblock %}
+
+{% block content %}
+<a href="{% url 'task_list' %}" class="btn btn-outline-primary mb-3">← Назад к списку</a>
+
+<div class="card">
+    <div class="card-body">
+        <h1>{{ task.description }}</h1>
+        
+        <div class="mb-3">
+            <span class="badge {% if task.status == 'new' %}bg-primary{% elif task.status == 'in_progress' %}bg-warning{% else %}bg-success{% endif %} fs-6">
+                {{ task.get_status_display }}
+            </span>
+            {% if task.due_date %}
+            <span class="badge bg-secondary fs-6">📅 {{ task.due_date }}</span>
+            {% endif %}
+        </div>
+
+        {% if task.detailed_description %}
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+                <h5>Подробное описание:</h5>
+                <p style="white-space: pre-wrap;">{{ task.detailed_description }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <small class="text-muted">Создано: {{ task.created_at|date:"d.m.Y H:i" }}</small>
+
+        <form method="post" action="{% url 'task_delete' task.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">✕ Удалить задачу</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

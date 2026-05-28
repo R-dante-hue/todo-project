@@ -3,15 +3,15 @@
 {% block content %}
 <h1 class="mb-4">Список задач</h1>
 
-<a href="{% url 'task_create' %}" class="btn btn-primary mb-3">+ Добавить задачу</a>
-
 {% if tasks %}
     {% for task in tasks %}
     <div class="card mb-3">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <h5>{{ task.description }}</h5>
+                    <h5>
+                        <a href="{% url 'task_detail' task.pk %}">{{ task.description }}</a>
+                    </h5>
                     <span class="badge {% if task.status == 'new' %}bg-primary{% elif task.status == 'in_progress' %}bg-warning{% else %}bg-success{% endif %}">
                         {{ task.get_status_display }}
                     </span>
@@ -28,6 +28,6 @@
     </div>
     {% endfor %}
 {% else %}
-    <p>Задач пока нет. <a href="{% url 'task_create' %}">Создайте новую задачу</a>.</p>
+    <p>Задач пока нет.</p>
 {% endif %}
 {% endblock %}
